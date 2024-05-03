@@ -1,80 +1,95 @@
 package com.elsafty.maidscc;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/api/")
 public class DeviceController {
 
-	private final DeviceService DeviceService;
-
 	@Autowired
-	public DeviceController(DeviceService DeviceService) {
-		this.DeviceService = DeviceService;
-	}
+    private DeviceRepository deviceRepository;
 
-	/**
-	* Create a new Device.
-	*
-	* @param Device the Device to create
-	* @return the ResponseEntity with status 200 (OK) and with body of the new Device
-	*/
-	@PostMapping("/device")
-	public ResponseEntity<Device> saveDevice(@RequestBody Device device) {
-		Device newDevice = DeviceService.saveDevice(device);
-		return ResponseEntity.ok(newDevice);
-	}
 
-	/**
-	* Get all Devices.
-	*
-	* @return the ResponseEntity with status 200 (OK) and with body of the list of Devices
-	*/
-	@GetMapping("/devices")
-	public List<Device> getAllDevices() {
-		return DeviceService.getAllDevices();
-	}
 
-	/**
-	* Get a Device by ID.
-	*
-	* @param id the ID of the Device to get
-	* @return the ResponseEntity with status 200 (OK) and with body of the Device, or with status 404 (Not Found) if the Device does not exist
-	*/
-	@GetMapping("/devices/{id}")
-	public ResponseEntity<Device> getDeviceById(@PathVariable Long id) {
-		Optional<Device> Device = DeviceService.getDeviceById(id);
-		return Device.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-	}
+    @GetMapping("/device")
+    public List<Device> getAllDevices() {
+        return deviceRepository.findAll();
+    }
 
-	/**
-	* Update a Device by ID.
-	*
-	* @param id the ID of the Device to update
-	* @param Device the updated Device
-	* @return the ResponseEntity with status 200 (OK) and with body of the updated Device, or with status 404 (Not Found) if the Device does not exist
-	*/
-	// @PutMapping("/devices/{id}")
-	// public ResponseEntity<Device> updateDevice(@PathVariable Long id, @RequestBody Device Device) {
-	// 	Device updatedDevice = DeviceService.updateDevice(id, Device);
-	// 	return ResponseEntity.ok(updatedDevice);
-	// }
+    @GetMapping("device/{id}")
+    public ResponseEntity<Device> getDeviceById(@PathVariable Long id) {
+        Optional<Device> device = deviceRepository.findById(id);
+        return device.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
 
-	/**
-	* Delete a Device by ID.
-	*
-	* @param id the ID of the Device to delete
-	* @return the ResponseEntity with status 200 (OK) and with body of the message "Device deleted successfully"
-	*/
-	@DeleteMapping("/devices/{id}")
-	public ResponseEntity<String> deleteDevice(@PathVariable Long id) {
-		DeviceService.deleteDevice(id);
-		return ResponseEntity.ok("Device deleted successfully");
-	}
+    @PostMapping("/")
+    public ResponseEntity<Device> addDevice(@RequestBody Device device) {
+        Device savedDevice = deviceRepository.save(device);
+        return ResponseEntity.created(URI.create("/api/devices/" + savedDevice.getId())).body(savedDevice);
+    }
+
+     @PostMapping("/predict/{deviceId}")
+    public ResponseEntity<String> predictAndSavePrice(@PathVariable Long deviceId) {
+        // Fetch device details from the database
+        Optional<Device> optionalDevice = deviceRepository.findById(deviceId);
+        if (optionalDevice.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Device device = optionalDevice.get();
+
+        // Prepare data for prediction (convert device object to JSON)
+        ObjectMapper objectMapper = new ObjectMapper();
+        String deviceJson;
+        try {
+            deviceJson = objectMapper.writeValueAsString(device);
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing device data.");
+        }
+
+        // Make HTTP POST request to Python API
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> requestEntity = new HttpEntity<>(deviceJson, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntity;
+        try {
+            responseEntity = restTemplate.exchange("http://localhost:5000/predict", HttpMethod.POST, requestEntity, String.class);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error communicating with Python API.");
+        }
+
+        // Check if prediction was successful
+        if (responseEntity.getStatusCode() != HttpStatus.OK) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Prediction failed.");
+        }
+
+        // Save prediction result in the database (if needed)
+        // Apply transaction management
+
+        // Return success response
+        return ResponseEntity.ok("Prediction saved successfully."+responseEntity.getBody());
+    }
 }

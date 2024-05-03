@@ -11,87 +11,78 @@ public class Device {
     private Long id;
 
     @Column(name = "battery_power")
-    private Integer batteryPower;
+    private Integer battery_power;
 
     @Column(name = "blue")
     private Integer blue;
 
     @Column(name = "clock_speed")
-    private Float clockSpeed;
+    private Float clock_speed;
 
     @Column(name = "dual_sim")
-    private Integer dualSim;
+    private Integer dual_sim;
 
     @Column(name = "fc")
     private Float fc;
 
     @Column(name = "four_g")
-    private Integer fourG;
+    private Integer four_g;
 
     @Column(name = "int_memory")
-    private Float intMemory;
+    private Float int_memory;
 
     @Column(name = "m_dep")
-    private Float mDep;
+    private Float m_dep;
 
     @Column(name = "mobile_wt")
-    private Float mobileWt;
+    private Float mobile_wt;
 
     @Column(name = "n_cores")
-    private Float nCores;
+    private Float n_cores;
 
     @Column(name = "pc")
     private Float pc;
 
     @Column(name = "px_height")
-    private Float pxHeight;
+    private Float px_height;
 
     @Column(name = "px_width")
-    private Float pxWidth;
+    private Float px_width;
 
     @Column(name = "ram")
     private Float ram;
 
     @Column(name = "sc_h")
-    private Float scH;
+    private Float sc_h;
 
     @Column(name = "sc_w")
-    private Float scW;
+    private Float sc_w;
 
     @Column(name = "talk_time")
-    private Integer talkTime;
+    private Integer talk_time;
 
     @Column(name = "three_g")
-    private Integer threeG;
+    private Integer three_g;
 
     @Column(name = "touch_screen")
-    private Integer touchScreen;
+    private Integer touch_screen;
 
     @Column(name = "wifi")
     private Integer wifi;
 
 
-
-    // Getters and setters
-        // Getter and Setter for id
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
-    // Getter and Setter for batteryPower
-    public Integer getBatteryPower() {
-        return batteryPower;
+    public Integer getBattery_power() {
+        return battery_power;
     }
 
-    public void setBatteryPower(Integer batteryPower) {
-        this.batteryPower = batteryPower;
+    public void setBattery_power(Integer battery_power) {
+        this.battery_power = battery_power;
     }
 
-    // Getter and Setter for blue
     public Integer getBlue() {
         return blue;
     }
@@ -100,25 +91,22 @@ public class Device {
         this.blue = blue;
     }
 
-    // Getter and Setter for clockSpeed
-    public Float getClockSpeed() {
-        return clockSpeed;
+    public Float getClock_speed() {
+        return clock_speed;
     }
 
-    public void setClockSpeed(Float clockSpeed) {
-        this.clockSpeed = clockSpeed;
+    public void setClock_speed(Float clock_speed) {
+        this.clock_speed = clock_speed;
     }
 
-    // Getter and Setter for dualSim
-    public Integer getDualSim() {
-        return dualSim;
+    public Integer getDual_sim() {
+        return dual_sim;
     }
 
-    public void setDualSim(Integer dualSim) {
-        this.dualSim = dualSim;
+    public void setDual_sim(Integer dual_sim) {
+        this.dual_sim = dual_sim;
     }
 
-    // Getter and Setter for fc
     public Float getFc() {
         return fc;
     }
@@ -127,52 +115,46 @@ public class Device {
         this.fc = fc;
     }
 
-    // Getter and Setter for fourG
-    public Integer getFourG() {
-        return fourG;
+    public Integer getFour_g() {
+        return four_g;
     }
 
-    public void setFourG(Integer fourG) {
-        this.fourG = fourG;
+    public void setFour_g(Integer four_g) {
+        this.four_g = four_g;
     }
 
-    // Getter and Setter for intMemory
-    public Float getIntMemory() {
-        return intMemory;
+    public Float getInt_memory() {
+        return int_memory;
     }
 
-    public void setIntMemory(Float intMemory) {
-        this.intMemory = intMemory;
+    public void setInt_memory(Float int_memory) {
+        this.int_memory = int_memory;
     }
 
-    // Getter and Setter for mDep
-    public Float getMDep() {
-        return mDep;
+    public Float getM_dep() {
+        return m_dep;
     }
 
-    public void setMDep(Float mDep) {
-        this.mDep = mDep;
+    public void setM_dep(Float m_dep) {
+        this.m_dep = m_dep;
     }
 
-    // Getter and Setter for mobileWt
-    public Float getMobileWt() {
-        return mobileWt;
+    public Float getMobile_wt() {
+        return mobile_wt;
     }
 
-    public void setMobileWt(Float mobileWt) {
-        this.mobileWt = mobileWt;
+    public void setMobile_wt(Float mobile_wt) {
+        this.mobile_wt = mobile_wt;
     }
 
-    // Getter and Setter for nCores
-    public Float getNCores() {
-        return nCores;
+    public Float getN_cores() {
+        return n_cores;
     }
 
-    public void setNCores(Float nCores) {
-        this.nCores = nCores;
+    public void setN_cores(Float n_cores) {
+        this.n_cores = n_cores;
     }
 
-    // Getter and Setter for pc
     public Float getPc() {
         return pc;
     }
@@ -181,25 +163,22 @@ public class Device {
         this.pc = pc;
     }
 
-    // Getter and Setter for pxHeight
-    public Float getPxHeight() {
-        return pxHeight;
+    public Float getPx_height() {
+        return px_height;
     }
 
-    public void setPxHeight(Float pxHeight) {
-        this.pxHeight = pxHeight;
+    public void setPx_height(Float px_height) {
+        this.px_height = px_height;
     }
 
-    // Getter and Setter for pxWidth
-    public Float getPxWidth() {
-        return pxWidth;
+    public Float getPx_width() {
+        return px_width;
     }
 
-    public void setPxWidth(Float pxWidth) {
-        this.pxWidth = pxWidth;
+    public void setPx_width(Float px_width) {
+        this.px_width = px_width;
     }
 
-    // Getter and Setter for ram
     public Float getRam() {
         return ram;
     }
@@ -208,52 +187,46 @@ public class Device {
         this.ram = ram;
     }
 
-    // Getter and Setter for scH
-    public Float getScH() {
-        return scH;
+    public Float getSc_h() {
+        return sc_h;
     }
 
-    public void setScH(Float scH) {
-        this.scH = scH;
+    public void setSc_h(Float sc_h) {
+        this.sc_h = sc_h;
     }
 
-    // Getter and Setter for scW
-    public Float getScW() {
-        return scW;
+    public Float getSc_w() {
+        return sc_w;
     }
 
-    public void setScW(Float scW) {
-        this.scW = scW;
+    public void setSc_w(Float sc_w) {
+        this.sc_w = sc_w;
     }
 
-    // Getter and Setter for talkTime
-    public Integer getTalkTime() {
-        return talkTime;
+    public Integer getTalk_time() {
+        return talk_time;
     }
 
-    public void setTalkTime(Integer talkTime) {
-        this.talkTime = talkTime;
+    public void setTalk_time(Integer talk_time) {
+        this.talk_time = talk_time;
     }
 
-    // Getter and Setter for threeG
-    public Integer getThreeG() {
-        return threeG;
+    public Integer getThree_g() {
+        return three_g;
     }
 
-    public void setThreeG(Integer threeG) {
-        this.threeG = threeG;
+    public void setThree_g(Integer three_g) {
+        this.three_g = three_g;
     }
 
-    // Getter and Setter for touchScreen
-    public Integer getTouchScreen() {
-        return touchScreen;
+    public Integer getTouch_screen() {
+        return touch_screen;
     }
 
-    public void setTouchScreen(Integer touchScreen) {
-        this.touchScreen = touchScreen;
+    public void setTouch_screen(Integer touch_screen) {
+        this.touch_screen = touch_screen;
     }
 
-    // Getter and Setter for wifi
     public Integer getWifi() {
         return wifi;
     }
@@ -261,8 +234,6 @@ public class Device {
     public void setWifi(Integer wifi) {
         this.wifi = wifi;
     }
-
-
 
     
 }
