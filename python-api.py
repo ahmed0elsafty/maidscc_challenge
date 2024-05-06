@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 import pickle
+from preprocessing import preprocess_data
 
 app = Flask(__name__)
 
@@ -12,7 +13,7 @@ with open('classifier.pkl', 'rb') as f:
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.json
-    features = pd.DataFrame(data, index=[0])
+    features = pd.DataFrame.from_dict(data, orient='index').T
     prediction = classifier.predict(features)
     return jsonify({'prediction': int(prediction)})
 
